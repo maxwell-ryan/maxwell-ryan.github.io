@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Deck of Cards API Video Poker</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="poker.css">
+  </head>
+  <body id = "mainBody">
+    <button id="newButton">New Hand</button><br \>
+    <button id="discardButton">Discard Selected Cards</button><br \>
+    <div id = "display">
+      <img class="cards" id=card1>
+      <img class="cards" id=card2>
+      <img class="cards" id=card3>
+      <img class="cards" id=card4>
+      <img class="cards" id=card5><br \>
+        <div id = "btnDisplay">
+          <button class="discardBtn" id=card1btn>Discard Card 1</button>
+          <button class="discardBtn" id=card2btn>Discard Card 2</button>
+          <button class="discardBtn" id=card3btn>Discard Card 3</button>
+          <button class="discardBtn" id=card4btn>Discard Card 4</button>
+          <button class="discardBtn" id=card5btn>Discard Card 5</button>
+        </div>
+    </div>
+    <div id = "result">You have a: </div>
+    <div id = "name">tranquil video poker </div>
+    <div id = "description">no gambling, no points, no stress - just play</div>
+    <script src="poker.js">
+      /*var newDeck = new XMLHttpRequest();
+      newDeck.open("GET", "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1", false);
+      newDeck.send(null);
+      var deck = JSON.parse(newDeck.responseText);
+      console.log(deck);
+      var deckID = deck.deck_id;
+      console.log(deckID);*/
+
+      /*var newDraw = new XMLHttpRequest();
+      var drawCount = 5;
+      newDraw.open("GET", "https://deckofcardsapi.com/api/deck/" + "pqiru8q1ji66" + "/draw/?count=" + drawCount, false);
+      newDraw.send(null);
+      var draw = JSON.parse(newDraw.responseText);
+      console.log(draw);
+
+      var card1 = draw.cards[0].code;
+      var card2 = draw.cards[1].code;
+      var card3 = draw.cards[2].code;
+      var card4 = draw.cards[3].code;
+      var card5 = draw.cards[4].code;
+      var cardImage1 = draw.cards[0].image;
+      var cardImage2 = draw.cards[1].image;
+      var cardImage3 = draw.cards[2].image;
+      var cardImage4 = draw.cards[3].image;
+      var cardImage5 = draw.cards[4].image;
+
+      document.getElementById('card1').src=cardImage1;
+      document.getElementById('card2').src=cardImage2;
+      document.getElementById('card3').src=cardImage3;
+      document.getElementById('card4').src=cardImage4;
+      document.getElementById('card5').src=cardImage5;
+
+      function flush(handArray) {
+        for(var x = 0; x < 1; x++){
+          var flushChecker = 0;
+          for(var y = x; y < drawCount; y++) {
+            if(handArray.cards[0].suit == handArray.cards[y].suit)
+              flushChecker++
+          }
+        }
+
+        if (flushChecker >= 5) {
+          return true;
+        } else {
+          return false;
+        }
+    };
+
+    function pair(handArray) {
+      var highestLikeKind = 0;
+      for(var x = 0; x < drawCount; x++){
+        var numOfLike = 0;
+        for(var y = x+1; y < drawCount; y++) {
+          if(handArray.cards[x].value == handArray.cards[y].value)
+            numOfLike++
+        }
+        if (numOfLike > highestLikeKind){
+          highestLikeKind = numOfLike;
+        }
+      }
+      if (highestLikeKind == 1)
+        return "pair"
+      else if (highestLikeKind == 2)
+        return "3 of a kind"
+      else if (highestLikeKind == 3)
+        return "4 of a kind"
+      else {
+        return "no pairs"
+      }
+    };
+
+    var isFlush = flush(draw);
+    var isPair = pair(draw);
+
+    console.log("Flush: " + isFlush);
+    console.log("Pair: " + isPair)*/
+
+
+
+
+    </script>
+  </body>
+</html>

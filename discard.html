@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<!--
+	Binary by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>How to use the API: Discard a card(s)</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="logo"><strong>Deck of Cards API </strong> <e>a How-To Guide by Max Weinberger</e></a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">Home: An overview</a></li>
+					<li><a href="api.html">Background Information: API</a></li>
+					<li><a href="json.html">Background Information: JSON</a></li>
+					<li><a href="deckMethods.html">API: Create a Brand New Deck</a></li>
+					<li><a href="createDeckAdvanced.html">API: Create a Brand New Deck - Advanced</a></li>
+					<li><a href="shuffle.html">API: Shuffle a Deck</a></li>
+					<li><a href="draw.html">API: Draw a Card</a></li>
+					<li><a href="discard.html">API: Adding to Piles</a></li>
+					<li><a href="draw.html">API: Drawing from Piles</a></li>
+					<li><a href="tieTogetherAJAX.html">Tying it together: AJAX</a></li>
+					<li><a href="tieTogetherGame.html">Tying it together: Video Poker</a></li>
+					<li><a href="finalProduct.html">The Final Product: Tranquil Video Poker</a></li>
+				</ul>
+			</nav>
+
+		<!-- Main -->
+			<section id="main">
+				<div class="inner">
+					<div class="image fit">
+				</div>
+					<header>
+						<h1>How to discard cards from an existing deck</h1>
+						<p class="info">How to use the API to discard cards drawn from an already created deck</p>
+						<p>You should know now how to <a href="createDeckAdvanced.html">create a deck with a function</a>, <a href="shuffle.html">shuffle the same deck with a custom function</a>, and <a href="draw.html">draw cards from a deck</a>. Please read these first if you have not already, then come back.
+					</header>
+				<p>We know now enough to create a deck and draw 5 cards. This puts us well on our way to a video poker game. However, in video poker, you receive 5 cards, but have the option to discard any and all of your cards one time and re-draw. To build this, we need to learn how to discard.</p>
+				<p>Technically, with this API, we could just draw new cards and not use the unwanted ones. Doing it this way doesn't give us an opportunity to learn how to use the API's discard features. It also leads to a less modulure video poker application, which could be problematic if we ever want to add more features later. So we will discard our unwanted cards into a discard pile.<p>
+				<p>First let's look at the API's 'adding to piles' request format, and related response. We will move over these quicker, as by now, you should be very familiar with the format <em>(assuming you followed through on the above note and read the prerequisite pages first)</em>. The request format mandates that the usual <code>deck_id</code> parameter is given, and also that a <code>pile_name</code> is given. Finally, the request query string must include the specific cards being added to the pile. The value shall take the form of a <code>cards</code> <code>code</code> property.</p>
+				<div class="image fit">
+					<img src="images/addingToPiles.jpg">
+				</div>
+				<p>We can handle this request using methods similar to the others. We can dynamically build the query string via method parameters. This allows us to use the same function to discard accross all decks, and in future applications other than our video poker game.</p>
+				<div class="image fit">
+					<img src="images/addingToPilesResponse.jpg">
+				</div>
+				<p>Notice that the response is very similar to the other responses we have examined, however, <code>piles</code> appears as a new response object property. <code>piles</code> is an object of objects. Do not let this confuse you. <code>piles</code> is simply an object, which contains a property for each pile we have created for a given <code>deck_id</code>. Each one of these properties has an object value which contains a single property <code>remaining</code>. <code>remaining</code>'s value is simply how many cards remain in that specific pile. This is particularly helpful for games in which players draw from various specific piles. In our case, video poker, we will always draw from the shuffled deck.</p>
+				<p>Let's try discarding cards to a pile. Remember the previous example when we <a href=http://jsfiddle.net/maxwell_ryan/0js6Lbpp/4/?utm_source=website&utm_medium=embed&utm_campaign=0js6Lbpp>displayed 4 cards drawn</a>, let's discard one of those.</p>
+				<p>Note: the API allows us to create piles on the fly. When we need to provide a <code>pile_name</code>, we can use either 1) an exsting pile, or 2) a new pile name, which will dynamically create that pile for the current request and future use.</p>
+				<iframe width="100%" height="700" src="//jsfiddle.net/maxwell_ryan/n2qcgbpq/17/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+				<p>To discard, we simply create a new method, <code>discardCard</code>, which takes three parameters. An object which must contain the <code>deck_id</code> property, a <code>string</code> of the existing pile we want to add to, or a new pile we want to discard to, and lastly, the card <code>code</code> property that we want to discard.</p>
+				<p>When the function runs we save the API's parsed JSON response and return it. We then set our variable <code>discardData</code> to the <code>discardCard</code>'s return value, perserving data about our deck's piles for future use, shoud we need it.</p>
+				<p><strong>Please note, you cannot discard a card that has not yet been drawn from a deck. The official API documentation does not discuss this. While you can pass our <code>discardCard</code> a card <code>code</code> that has not been drawn, the API will simply create a pile with the <code>pile_name</code> passed, but nothing will be in that pile.</strong></p>
+				<p>We almost have all the elements to our video poker game even if it doesn't seem like it. You may be wondering, how do we enable discarding a specific card we drawn, not a pre-decided card like our previous example. Take a look at the following:</p>
+				<iframe width="100%" height="300" src="//jsfiddle.net/maxwell_ryan/8f5pv6rm/25/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+				<p>To discard a specific card, we simply add a button for each card displayed. We then add an event listener to that button using the <code>addEventListener</code> method. When this event listener is fired, it will call the <code>discardCard</code> function we previously wrote, passing the specific card we want discarded as a parameter. Viola, the card we chose to discard has been discarded.</p>
+				<p>You may wonder how we know this card has been discarded. Give the buttons a try and discard a card of your choice, then click the "Click to see discard pile info" button. The cards in pile will increment with each push of a "Discard Card X" button. This validates that our pile is growing with each discard. However, you may also notice some strange behavior. <strong>You can discard the same card more than once!</strong>
+					 The official API page does not discuss this, but as a developer you must be careful. You can multiple versions of the same card to a pile you have created. In our case, video poker does not draw from piles besides the shuffled deck, so it won't impact us directly, but <strong>if you are developing an application that draws from various piles, please be aware of this intricacy.</strong>
+				<p>To end this lesson, and for the skeptics out there, this presents a good opportunity to illustrate the "Drawing from Piles" feature of the API. We will not need this for our video poker application, but using it will allow us to explicitly show what cards are in our discard pile. Not above that the discard API response does not return specifics about the cards in our pile, just how many there are.</p>
+				<p>We can prove that the correct cards are discarded by then drawing from our discard pile, as drawing from a pile does return a response with specific card information. This <a href="http://jsfiddle.net/maxwell_ryan/0bbrLc1q/11/">JSFiddle</a> contains the code I have captured below.</p>
+				<div class="image fit">
+					<img src="images/drawFromPile.jpg">
+				</div>
+				<p>We add a new function <code>drawFromPile</code> which accepts two parameters. 1) <code>deckObj</code> which can be any object containing the <code>deck_id</code> property, and 2) <code>pileName</code>, which is the pile that we want to draw from. Similar to the other functions we created, we ammend these arguments to the <code>apiURL</code> before sending the GET request to the API. Finally, we return the response card's <code>image</code> property. Just like you used it <a href="draw.html">when drawing cards,</a> this property supplies a hosted image to display the card. So in our case, this is the card we drew from our discard pile.</p>
+				<p>We ammend this returned image to our "topOfStack" span, when the "drawFromPile" button is clicked, allowing us to see and prove the cards we discarded are the cards in the discard pile.</o>
+				<p>When makng a "draw from pile" call, if you don't specify a specifc card <code>code</code> you would like to draw, the API draws the card on top of the pile. You can ammend a specific card, or cards, you would like to draw from the pile by appending the<code>apiURL</code> with those card's <code>code</code> property. For our case here, we won't be doing so, but know that you can, should your future applications require that option. So in our case, we expect a single card response, along with the other deck information. Here is the official API response for "drawing from piles". Note that the <code>cards</code> property is again an array of card objects. In our function, this array will always include just one card, this is why we simply <code>return</code> <code>pileDrawResponse.cards[0].image</code>.
+				<div class="image fit">
+					<img src="images/drawFromPileResponse.jpg">
+				</div>
+				<p><em>But back to the sceptics</em>, here is how we know our feature allowing us to discard the exact card we want is working. We draw 4 cards using our <a href="draw.html">previously created functions</a>.
+				<div class="image fit">
+					<img src="images/exDrawnCards.jpg">
+				</div>
+				<p>At this point, if we click our <em>Click to see discard pile info</em>, we will get a runtime error, as it will attempt to access and display properties in our empty <code>discardData</code> object that do not yet exist, as <code>discardCard</code> has not yet been called, since we haven't picked a card to discard. So let's do that now.</p>
+				<p>The 2 of Clubs looks like a bad card, so we discard it. We then click the <em>Click to see discard pile info</em> button, noting that it now shows there is one card in our pile.</p>
+				<div class="image fit">
+					<img src="images/exDiscardedCard.jpg">
+				</div>
+				<p>Let's discard one more card to illustrate how our function returns the card on top of our pile. We discard the 6 of Clubs second.</p>
+				<div class="image fit">
+					<img src="images/exDiscardedSecond.jpg">
+				</div>
+				<p>Now let's draw from our discard pile by clicking the <em>Draw top card from discard pile</em> button.
+				<div class="image">
+					<img src="images/exPileDraw1.jpg">
+				</div>
+				<p>We get the 6 of Clubs. We did choose to discard this card, but didn't we discard it second? Why are we seeing it first? This is what was mentioned above. The API returns the top of the pile. This means we are dealing with a <a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack data type</a>. The card that was most recently discarded is the card that is on the top of the stack. This means if we click <em>Draw top card from discard pile</em> again, we should see our first discarded card, the 2 of Clubs. Let's see...
+				<div class="image">
+					<img src="images/exPileDraw2.jpg">
+				</div>
+				<p>There it is!</p>
+				<p><strong>You know now how to discard a card, and the exact card you choose to discard. You also know how to create piles, and draw from those piles. Although we won't need this feature for our video poker application, you know how to use it for future Deck of Cards API projects.</strong></p>
+				</div>
+			</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="copyright">
+				&copy; Site template source: <a href="https://templated.co">TEMPLATED</a>
+				<br><em>Site by: Maxwell Weinberger | CS290 | weinbema@oregonstate.edu</em>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

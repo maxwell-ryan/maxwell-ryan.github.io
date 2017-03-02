@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<!--
+	Binary by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Tie it together: Video Poker</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="logo"><strong>Deck of Cards API </strong> <e>a How-To Guide by Max Weinberger</e></a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">Home: An overview</a></li>
+					<li><a href="api.html">Background Information: API</a></li>
+					<li><a href="json.html">Background Information: JSON</a></li>
+					<li><a href="deckMethods.html">API: Create a Brand New Deck</a></li>
+					<li><a href="createDeckAdvanced.html">API: Create a Brand New Deck - Advanced</a></li>
+					<li><a href="shuffle.html">API: Shuffle a Deck</a></li>
+					<li><a href="draw.html">API: Draw a Card</a></li>
+					<li><a href="discard.html">API: Adding to Piles</a></li>
+					<li><a href="draw.html">API: Drawing from Piles</a></li>
+					<li><a href="tieTogetherAJAX.html">Tying it together: AJAX</a></li>
+					<li><a href="tieTogetherGame.html">Tying it together: Video Poker</a></li>
+					<li><a href="finalProduct.html">The Final Product: Tranquil Video Poker</a></li>
+				</ul>
+			</nav>
+
+		<!-- Main -->
+			<section id="main">
+				<div class="inner">
+					<div class="image fit">
+					</div>
+					<header>
+						<h1>Tying it all together - creating a video poker application using the functions we created</h1>
+						<p class="info">It is time to combine everything we learned to create a video poker application</p>
+					</header>
+					<p>For those that do not know what it is, here is a <a href="https://en.wikipedia.org/wiki/Video_poker">page about video poker</a>. In short, video poker is a poker game played against the computer. Each hand you are initially delt 5 cards. You can then discard 0 - 5 cards or your choosing in an attempt to improve your hand. After discarding, your hand is final. What you have is what you have.</p>
+					<p>Let's consider what we need to simulate this in our application. The pseudocode of logic flow might go something like this:
+						<ol>
+							<li>Get a deck of cards <em>(perfect, we can do this with our <a href=deckMethods.html>deck creation function</a>)</em>
+							<li>Shuffle our deck of cards<em>(awesome, we can do this with our <a href=shuffle.html>shuffle function</a>)</em>
+							<li>Deal the initial 5 card hand<em>(this sounds easy enough, we can just draw 5 cards with our<a href=draw.html>draw card(s) function</a>)</em>
+							<li>Decide what cards to discard<em>(sounds like the user will have to do this, but maybe we can give them some HTML buttons to help. Oh, and we can put the discarded cards in a discard pile with our <a href="discard.html")>discard function</a></em>
+							<li>Draw new cards equal to the number of cards discarded above<em>(sweet, this is just #3 with X number of cards instead of 5)</em>
+							<li>Evaluate the final hand for pairs, straight, flush, full house etc.<em>(well the API doesn't do this for us, but I bet we can write our own algorithms to review our final 5 cards)</em>
+							<li>Loop back to #1 and repeat
+						</ol></p>
+					<p>
+						<h5>#1</h5>
+						Following our psuedocode from above, let's start our video poker game with our <code>createDeck</code> function.
+						<div class="image fit">
+							<img src="images/createDeck.jpg">
+						</div>
+						The only change we make to the function itself is ensuring we pass <code>true</code> to <code>open</code> to ensure all our requests are asyncronous. Notice also that when the response is received we update <code>deckData</code>, an object that stores up-to-date information about the deck being used by our game.
+						We also call <code>shuffleDeck</code> as soon as our response is received. We can do this as once the response is received we have a valid <code>deck_id</code> to pass as an argument to <code>shuffleDeck</code>. And so, this function is called:
+						<h5>#2</h5>
+						<div class="image fit">
+							<img src="images/shuffleDeck.jpg">
+						</div>
+						This too should look <a href="shuffle.html">very familiar</a>, except it is in asyncronous form. Notice also that on line <em>37</em> we check if <code>handInProgress</code>is <code>false</code>. This conditional is simply checking if a hand is already in progress. In code further down, you will notice sometimes we will need to shuffle the deck at times besides the very first hand. Therefore, we check after shuffling if a hand is in progress, if
+						if <code>handInProgress == false</code> then we know we need to draw 5 cards, and so we do so with a call to <code>drawHand</code>, and then we toggle <code>handInProgress</code> to <code>true</code>. Before we look at <code>drawHand</code> in detail, now is a good chance to glance at the objects and bools that persist throughout the entire video poker game.
+						<div class="image fit">
+							<img src="images/objects.jpg">
+						</div>
+						<p>These are all self-explanatory, but also have comments to debrief you. We have  even talked about a few already. Take a read over these for future reference.</p>
+						<h5>#3</h5>
+						<div class="image fit">
+							<img src="images/drawHand.jpg">
+						</div>
+						<p><code>drawHand()</code> is a simple modification of our <a href="draw.html"><code>drawCards</code></a> function. We remove a parameter for number of cards to draw, as we are drawing a <em>hand</em>, so we always want to draw 5 cards!
+						We set <code>deckData</code> <i>(an object that will always hold the current hand card data)</i> to the parsed response. Then, taking advantage of the benefits of <em>asyncronous requests</em>, we can immediately update our 5 card img HTML tags with the cards that were just drawn by directly access each card via the <code>cards</code> array.
+						We always draw five cards with this function, and our hand always has five cards, so we know access array index <code>[0]</code> to <code>[4]</code> will always be valid.</p>
+						<p>By loading our script so far which includes some persistent objects and bools <em>(just shown above)</em> and just a single function call to <code>createDeck</code>:</p>
+						<div class="image fit">
+							<img src="images/init.jpg">
+						</div>
+						<p>We have a full hand, due to the asyncronous nature of our functions 'calling back' to the next logical function. Here is our first hand:</p>
+						<div class="image fit">
+							<img src="images/firstHand.jpg">
+						</div>
+						<p>Now would be the perfect time to discuss those buttons we mentioned before. You can see all 7 of them above. 5 of them perform the same function, but each on a unique card, allowing the player to select which of the 5 cards they would like to discard. Once the player has selected the combination
+							of cards they would like to discard, clicking the <em>Discard Selected Cards</em>button will start the discarding process. Also note, that when a user is discarding a particular card they are really saying that they would like to draw a new card in place of that card. Looking at our above psuedocode,
+							this means that we are really trying to execute #4 and #5 at the same time. Technically we discard, then draw, but to the user, the details are not important. Therefore, let's setup the <em>Discard Selected Cards</em> to evaluate each discard button. If a discard button is selected, then we know we should
+							discard it and replace it with a newly drawn card:</p>
+						<div class="image fit">
+							<img src="images/discardButton.jpg">
+						</div>
+						<p>It would also be helpful to see how the <em>Discard Card #</em> buttons work at the code level:</p>
+						<div class="image fit">
+							<img src="images/cardButton.jpg">
+						</div>
+						<p>Pretty simple actually. Notice that the <em>Discard Card #</em> simply toggles between red and white, but only if the <code>discardAvailable</code> bool is <code>true</code>. If this variable is <code>false</code>, the button does nothing.</p>
+						<p>This brings us back to the big code block for the <em>Discard Selected Cards</em>button. What we wrote looks daunting, but it really is not. When this button is clicked, it simply looks at each card's corresponding button. If the button is red <em> ie. selected</em>, then it knows that the corresponding card needs to be discarded, and a new card drawn to replace it.</p>
+						<p>Notice that for each button, if the condition: <code>btn#.style.backgroundColor == "red" && discardAvailble</code> is <code>true</code>, the <code>discardCard</code> and <code>drawCard</code> is called.
+				</div>
+			</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="copyright">
+				&copy; Site template source: <a href="https://templated.co">TEMPLATED</a>
+				<br><em>Site by: Maxwell Weinberger | CS290 | weinbema@oregonstate.edu</em>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

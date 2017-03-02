@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<!--
+	Binary by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>How to use the API: Shuffle a Deck</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="logo"><strong>Binary</strong> by TEMPLATED</a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">Home: An overview</a></li>
+					<li><a href="api.html">Background Information: API</a></li>
+					<li><a href="json.html">Background Information: JSON</a></li>
+					<li><a href="deckMethods.html">API: Create a Brand New Deck</a></li>
+					<li><a href="createDeckAdvanced.html">API: Create a Brand New Deck - Advanced</a></li>
+					<li><a href="shuffle.html">API: Shuffle a Deck</a></li>
+					<li><a href="draw.html">API: Draw a Card</a></li>
+					<li><a href="discard.html">API: Adding to Piles</a></li>
+					<li><a href="draw.html">API: Drawing from Piles</a></li>
+					<li><a href="tieTogetherAJAX.html">Tying it together: AJAX</a></li>
+					<li><a href="tieTogetherGame.html">Tying it together: Video Poker</a></li>
+					<li><a href="finalProduct.html">The Final Product: Tranquil Video Poker</a></li>
+				</ul>
+			</nav>
+
+		<!-- Main -->
+			<section id="main">
+				<div class="inner">
+					<div class="image fit">
+					</div>
+					<header>
+						<h1>How to shuffle an existing deck</h1>
+						<p class="info">How to use the API to shuffle an already created deck</p>
+						<p>In our previous lesson, we learned how to <a href="createDeckAdvanced.html">create a deck with a function</a> using <a href="http://jsfiddle.net/maxwell_ryan/kz99022e/">this</a>. Please read these first if you have not already, then come back.
+					</header>
+					<p>So we have created a deck, but as the response indicates <a href="http://jsfiddle.net/maxwell_ryan/t4ykrqnp/52/?utm_source=website&utm_medium=embed&utm_campaign=t4ykrqnp">it is not shuffled</a>. Poker requires a shuffled deck, so let's shuffle our deck. This is the API request we can use to do so. Notice how similar it is to the create a new deck request: <code>https://deckofcardsapi.com/api/deck/new/</code></p>
+					<div class="image fit">
+						<img src="images/reshuffle.jpg">
+					</div>
+					<p>Notice that the only difference is the <code>deck_id</code> of the deck we want to be shuffled must be passed in the query string. <<code>/shuffle/</code> is also included in the URL instead of <code>/new/</code>. The response format remains the identical as the new deck response, but if it is successful, it should indicate the same deck is now shuffled via a <code>true</code> boolean value.</p>
+					<div class="image fit">
+						<img src="images/reshuffleResponse.jpg">
+					</div>
+					<p>The following code simply adds onto our previous create a deck function. We create a new function <code>shuffleDeck(deck_id)</code> which accepts our saved <code>deckID</code> variable and uses this parameter to append the <code>apiURL</code> variable to ensure our shuffle request is sent to the correct URL. We call this function, passing <code>deckID</code> and save the APIs parsed JSON response to <code>deckData</code> Take a look, and test the button on the results tab.</p>
+					<iframe width="100%" height="600" src="//jsfiddle.net/maxwell_ryan/gh18cwz0/10/embedded/js,html,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+					<p> As we know from before, our <code>newDeck</code> method returned a new <em>unshuffled</em> deck. This output shows that the deck passed to <code>shuffleDeck</code> is the same as the one we created in <code>createDeck</code>, but the output also demonstrates that <code>shuffleDeck</code> did in fact shuffle our deck, proven by the <code>true</code> value of <code>deckData</code>'s <code>shuffled</code> property.</p><br \>
+					<p>JSFiddle calls our functions each time you run them, therefore, your <code>deck_id</code> property value will not match the one below. But just like the below, you should observe that the <code>deck_id</code> used in both methods are identical.</p>
+					<div class="image fit">
+						<img src="images/shuffleResult.png">
+					</div>
+					<p><strong>That's it, simple right? You know now how to 1) create a new, unshuffled deck <i>(and simply doing so via a custom method)</i>, and 2) shuffle that deck <i>(also with a simple function call)</i>. You can now continue to shuffle the same deck over and over as needed, something we will need to do once we learn how to <a href="draw.html">draw cards from a deck.</a></strong></p>
+				</div>
+			</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="copyright">
+				&copy; Site template source: <a href="https://templated.co">TEMPLATED</a>
+				<br><em>Site by: Maxwell Weinberger | CS290 | weinbema@oregonstate.edu</em>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

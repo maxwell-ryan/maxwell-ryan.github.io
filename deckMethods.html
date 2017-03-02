@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>How to use actual API methods: Deck</title>
+		<title>How to use the API: Create a Deck</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -24,12 +24,18 @@
 		<!-- Nav -->
 			<nav id="menu">
 				<ul class="links">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="api.html">API</a></li>
-					<li><a href="json.html">JSON</a></li>
-					<li><a href="deckMethods.html">Create a Deck</a></li>
-					<li><a href="elements.html">Drawing Cards</a></li>
-					<li><a href="elements.html">Using Piles</a></li>
+					<li><a href="index.html">Home: An overview</a></li>
+					<li><a href="api.html">Background Information: API</a></li>
+					<li><a href="json.html">Background Information: JSON</a></li>
+					<li><a href="deckMethods.html">API: Create a Brand New Deck</a></li>
+					<li><a href="createDeckAdvanced.html">API: Create a Brand New Deck - Advanced</a></li>
+					<li><a href="shuffle.html">API: Shuffle a Deck</a></li>
+					<li><a href="draw.html">API: Draw a Card</a></li>
+					<li><a href="discard.html">API: Adding to Piles</a></li>
+					<li><a href="draw.html">API: Drawing from Piles</a></li>
+					<li><a href="tieTogetherAJAX.html">Tying it together: AJAX</a></li>
+					<li><a href="tieTogetherGame.html">Tying it together: Video Poker</a></li>
+					<li><a href="finalProduct.html">The Final Product: Tranquil Video Poker</a></li>
 				</ul>
 			</nav>
 
@@ -39,34 +45,44 @@
 					<div class="image fit">
 					</div>
 					<header>
-						<h1>Using Interactive Methods</h1>
-						<p class="info">How to use the API Methods</p>
+						<h1>How to create a deck</h1>
+						<p class="info">How to use the API to create a unique deck</p>
 					</header>
 					<p> The Deck of Cards API provides several useful methods for creating decks to use. The first we will examine is the "brand new deck" method. Which specifies the request should be in the following format:</p>
 					<div class="image fit">
 						<img src="images/newDeck.jpg">
 					</div>
-					<p> This method requests that the API server create a new deck for us to use. The server will process the request and then issue a response in the following format. </p>
+					<p> The API mandates that requests to create a deck are in the above format. We can accomplish this using a get request. We then send this request through the API. The server will process the request and then issue a response in the following format, which includes information we can use in future requests. </p>
 					<div class="image fit">
 						<img src="images/newDeckResponse.jpg">
 					</div>
-					<p> But first we will examine how we send this request, which can be done with the following code:</p>
-					<iframe width="100%" height="500" src="//jsfiddle.net/maxwell_ryan/t4ykrqnp/45/embedded/js,html,result/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+					<p> But first we will examine how we send this request, which can be done with the following code. Many of the requests we send via the API will look like this, so once you understand this, you are long on your way to understanding the Deck of Cards API!</p>
+					<iframe width="100%" height="450" src="//jsfiddle.net/maxwell_ryan/t4ykrqnp/52/embedded/js,html,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+					<p>We start by initializing a new <code>XMLHttpRequest</code> and assign it to our variable <code>ourDeck</code>. <code>XMLHttpRequest</code> are objects which help facilitate the exchange of information between us, and the API server. These objects provide us methods to send and receive the information we need. <a href=https://en.wikipedia.org/wiki/XMLHttpRequest>XMLHttpReuqest Wikipedia page</a>.</p>
+					<p>Next, as the API method specifies the uniform resource locator (URL) we need to send the request to, we save that URL, as a string, to the <code>apiURL</code> variable. This really just saves us typing the full URL in the future, if it is needed again.</p>
+					<p>Now that we have an object that helps facilitate sending information, and we have the URL to send it to, we are ready to setup the actual send. We do so by calling the <code>.open()</code> method on our <code>XMLHttpRequest</code> object <code>ourDeck</code>. We pass this method three parameters.<br \>
+					<p><ol><li>The type of request, GET or POST. <li>The sending location (URL) <li>A sinlge boolean value</ol>
+					<p>GET and POST are two different means of sending information from a client to a server. Both use the Hypertext Transfer Protocol (HTTP). GET posts include the information being sent in the URL itself. This is called the query string and looks like this: <code>http://awebpage.com/adirectory?name=john&lastname=doe</code>. The portion including and after the <code>?</code> is the query string portion of a URL.
+						 Notice that <code><em>name</em> = <em>john</em></code>. This is a key:value pair, just like those found in <a id="ajaxref" href=json.html>JavaScript objects and JSON</a>. This query string has 2 key:value pairs, which are seperated by a '&'. While POST requests can also do this, they can also include information in the message body. The API above does not expect information in the body, so we must send it a GET request.</p>
 
-
+					<p>So on line 8, we pass our three parameters. 1. <code>"POST"</code> <i>(for a post request)</i> 2. <code>apiURL</code> <i>(remember we saved this so we don't have to type again)</i> 3. <code>false</code> <i>(this means the request is not asyncronous, <a href="tieTogetherAJAX.html">more on this later)</a></i>
+					<br \><p>In the next line, we send that information using the <code>.send(null)</code> method on our <code>ourDeck</code> object. The <code>null</code> simply means we are not sending any additional information along with the request.</p>
+					<p><strong>So we are done, we just sent our first API request, asking for a new deck to use!</strong> Let's see what we get back.<br \></p>
+					<p>Remember when learning about JSON, and I said that you need to <a href=json.html>save the JSON information to a JavaScript object</a>. Well, I mentioned at the end of the page that there is a shortcut way to do this. Here it is in action:<br \><br \>
+					<code>var deckResponse = JSON.parse(ourDeck.responseText);</code>
+					<br \><br \>Recall that our <code>ourDeck</code> object facilitates the exchange of information. It saves the information it receives from the API to <code>ourDeck</code>'s <code>responseText</code> property. We can then use the JSON object, native to JavaScript, to automatically parse the JSON response we received to a new variable we create, <code>deckResponse</code>.
+					<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseText">The Mozilla Developer Network has very detailed information about this, if you would like to read more.</a> Here is the same JSFiddle from above, so you don't have to scroll up; it contains a button that will display all of the JSON information received as a response from the API. This information is shown via the <code>deckResponse</code> object we created to save the API's response. Give the button a try. Now scroll up and see how similar our output looks compared to the response the API tells us to expect.
+					<iframe width="100%" height="450" src="//jsfiddle.net/maxwell_ryan/t4ykrqnp/52/embedded/js,html,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+					<p> We know have a new deck we can use, we know this becauses the API response indicated it was successful with a <code>true</code> boolean value. Our deck is not shuffled, as the <code>false</code> boolean value indicates, just like those fresh deck of cards from the store. Our deck has <code>52</code> cards remaining, also like those fresh decks from the store. Best of all, it has a unique 12 character alphanumeric code, so we can continue to use it for other tasks.<br \><br \>Now that you have an depth view on how to send an API request, and read its response, <a href="shuffleMethods.html">continue to explore other API features.</a></p>
 			</section>
 
 		<!-- Footer -->
-			<footer id="footer">
-				<ul class="icons">
-					<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-					<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-					<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-				</ul>
-				<div class="copyright">
-					&copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.
-				</div>
-			</footer>
+		<footer id="footer">
+			<div class="copyright">
+				&copy; Site template source: <a href="https://templated.co">TEMPLATED</a>
+				<br><em>Site by: Maxwell Weinberger | CS290 | weinbema@oregonstate.edu</em>
+			</div>
+		</footer>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
