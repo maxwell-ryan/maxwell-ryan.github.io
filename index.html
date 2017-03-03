@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<!--
+	Binary by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>How-To Guide</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="logo"><strong>Deck of Cards API </strong> <e>a How-To Guide by Max Weinberger</e></a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">Home: An overview</a></li>
+					<li><a href="api.html">Background Information: API</a></li>
+					<li><a href="json.html">Background Information: JSON</a></li>
+					<li><a href="deckMethods.html">API: Create a Brand New Deck</a></li>
+					<li><a href="createDeckAdvanced.html">API: Create a Brand New Deck - Advanced</a></li>
+					<li><a href="shuffle.html">API: Shuffle a Deck</a></li>
+					<li><a href="draw.html">API: Draw a Card</a></li>
+					<li><a href="discard.html">API: Adding to Piles and Drawing from Piles</a></li>
+					<li><a href="tieTogetherAJAX.html">Tying it together: AJAX</a></li>
+					<li><a href="tieTogetherGame.html">Tying it together: Video Poker</a></li>
+					<li><a href="finalProduct/finalProduct.html">The Final Product: Tranquil Video Poker</a></li>
+				</ul>
+			</nav>
+
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner">
+					<h1>The Deck of Cards API helps developers create applications that require simulating a card deck.</h1> <br /><br />
+					<h3>This guide shows how you can use the API features to build a video poker game. These examples help provide more detail then the -> <em><a href="https://deckofcardsapi.com/"><strong>OFFICIAL API WEBPAGE</strong></a></em><br \></h3>
+					<ul class="actions">
+						<li><a href="#one" class="button alt scrolly big">Get Started</a></li>
+					</ul>
+				</div>
+			</section>
+
+		<!-- One -->
+			<article id="one" class="post style1">
+				<div class="image">
+					<img src="images/homepage2.jpg" alt="" data-position="75% center" />
+				</div>
+				<div class="content">
+					<div class="inner">
+						<header>
+							<h2>Introduction</h2>
+							<p class="info">What is this guide?</p>
+						</header>
+						<p>This guide will introduce you to the <a href="https://deckofcardsapi.com">Deck of Cards API</a>. By the end of this guide you will be able to build a
+							complete video poker application using just the API, JavaScript, and some HTML. The menu found in the top right corner works as a <em><strong>table of contents</em></strong>. It is available
+							on every page. This guide was designed to be sequential, so please start at the top and work your way down each section, concluding with our final product, a video poker application!
+							Before we get started, let us discuss some necessary background information, starting with what is an API?</p>
+					</div>
+					<div class="postnav">
+						<a href="#" class="prev disabled"><span class="icon fa-chevron-up"></span></a>
+						<a href="#two" class="scrolly next"><span class="icon fa-chevron-down"></span></a>
+					</div>
+				</div>
+			</article>
+
+		<!-- Two -->
+			<article id="two" class="post invert style1 alt">
+				<div class="image">
+					<img src="images/homepage4.jpg" alt="" data-position="75% center" />
+				</div>
+				<div class="content">
+					<div class="inner">
+						<header>
+							<h2><a href="api.html">Application Programming Interface (API)</a></h2>
+							<p class="info">What is an API?</p>
+						</header>
+						<p>Officially, per <a href="https://en.wikipedia.org/wiki/Application_programming_interface"a>Wikipedia</a>, "an API is a set of subroutine definitions, protocols, and tools for building application software."
+							But what does this really mean? Continue to read more.</p>
+						<ul class="actions">
+							<li><a href="api.html" class="button alt">Read More</a></li>
+						</ul>
+					</div>
+					<div class="postnav">
+						<a href="#one" class="scrolly prev"><span class="icon fa-chevron-up"></span></a>
+						<a href="#three" class="scrolly next"><span class="icon fa-chevron-down"></span></a>
+					</div>
+				</div>
+			</article>
+
+		<!-- Three -->
+			<article id="three" class="post style2">
+				<div class="image">
+					<img src="images/homepage1.jpg" alt="" data-position="10% center" />
+				</div>
+				<div class="content">
+					<div class="inner">
+						<header>
+							<h2><a href="json.html">JavaScript Object Notation (JSON)</a></h2>
+							<p class="info">What is JSON?</p>
+						</header>
+						<p>The official <a href="http://www.json.org">JSON webpage </a> states that "JSON is a lightweight data-interchange format." Essentially, JSON provides a standardized way to transmit data, independent of the programming languaged used. The Deck of Cards API returns information in this format, so it is important. Click to learn more.</p>
+						<ul class="actions">
+							<li><a href="json.html" class="button alt">Read More</a></li>
+						</ul>
+					</div>
+					<div class="postnav">
+						<a href="#two" class="scrolly prev"><span class="icon fa-chevron-up"></span></a>
+						<a href="#four" class="scrolly next"><span class="icon fa-chevron-down"></span></a>
+					</div>
+				</div>
+			</article>
+
+		<!-- Four -->
+			<article id="four" class="post invert style2 alt">
+				<div class="image">
+					<img src="images/poker.jpg" alt="" data-position="80% center" />
+				</div>
+				<div class="content">
+					<div class="inner">
+						<header>
+							<h2><a href="deckMethods.html">API Features</a></h2>
+							<p class="info">What does the API actually do?</p>
+						</header>
+						<p>So you now know what an API is and how to read JSON. We can now start examining the specific features of the Deck of Cards API and encorporate them into our own JavaScript functions. Let's begin! Past this point, use the menu to navigate to each next section.</p>
+						<ul class="actions">
+							<li><a href="deckMethods.html" class="button alt">Read More</a></li>
+						</ul>
+					</div>
+					<div class="postnav">
+						<a href="#three" class="scrolly prev"><span class="icon fa-chevron-up"></span></a>
+						<a href="#five" class="scrolly next"><span class="icon fa-chevron-down"></span></a>
+					</div>
+				</div>
+			</article>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="copyright">
+				&copy; Site template source: <a href="https://templated.co">TEMPLATED</a>
+				<br><em>Site by: Maxwell Weinberger | CS290 | weinbema@oregonstate.edu</em>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

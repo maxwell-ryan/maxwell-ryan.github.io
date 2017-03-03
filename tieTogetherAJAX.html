@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<!--
+	Binary by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Tie it together: AJAX</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="logo"><strong>Deck of Cards API </strong> <e>a How-To Guide by Max Weinberger</e></a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="index.html">Home: An overview</a></li>
+					<li><a href="api.html">Background Information: API</a></li>
+					<li><a href="json.html">Background Information: JSON</a></li>
+					<li><a href="deckMethods.html">API: Create a Brand New Deck</a></li>
+					<li><a href="createDeckAdvanced.html">API: Create a Brand New Deck - Advanced</a></li>
+					<li><a href="shuffle.html">API: Shuffle a Deck</a></li>
+					<li><a href="draw.html">API: Draw a Card</a></li>
+					<li><a href="discard.html">API: Adding to Piles and Drawing from Piles</a></li>
+					<li><a href="tieTogetherAJAX.html">Tying it together: AJAX</a></li>
+					<li><a href="tieTogetherGame.html">Tying it together: Video Poker</a></li>
+				  <li><a href="finalProduct/finalProduct.html">The Final Product: Tranquil Video Poker</a></li>
+				</ul>
+			</nav>
+
+		<!-- Main -->
+			<section id="main">
+				<div class="inner">
+					<div class="image fit">
+					</div>
+					<header>
+						<h1>Tying it all together - how to make asyncronous requests</h1>
+						<p class="info">How to make our functions, which make requests from the API, asyncronous.</p>
+						<p>In our previous lessons we explored the Deck of Cards API and created our own functions which when combined, will provide the full functionality we need to create our video poker game. But we left one piece out. Remember way back <a href="deckMethods.html#ajaxref">here</a> when I said we would get to the <code>true</code> vs <code>false</code> parameter passed to the <code>XMLHttpRequest</code> <code>open</code> method. Here is where we address it.
+					</header>
+					<p>Going forward we should always pass <code>true</code> to the <code>open</code> method. What does this change? Well, now the request will be an AJAX request. AJAX stands for <i>Asynchronous JavaScript and XML</i>. The key part being <i>Asynchronous</i>. Currently our deck creation method, and all our functions for that matter, send the request to the API server and must wait for a response before continuing
+					   with the code below it. This can be a problem. What if the API has a delay in its response? This can cause odd behavior for someone viewing a webpage, or using our application. Luckily, AJAX solves this. By telling <code>open</code> to be an ansycronous request, we allow all of our future code to continue before waiting for the API to respond.
+					   As we add code after the deck creation method, AJAX will become more and more beneficial. Let's examine how we can change our deck creation method to leverage AJAX:<br \></p>
+					<p>
+						<pre>
+function createDeck() {
+
+var ourDeck = new XMLHttpRequest();
+var apiURL = "https://deckofcardsapi.com/api/deck/new/"
+
+//notice that false becomes true to make it asyncronous
+ourDeck.open("GET", apiURL, true);
+
+//we add an event listener to our request object that fires on "load" (when the api responds)
+ourDeck.addEventListener("load", function() {
+
+	//functions which will execute all code we want once response received
+	var deckResponse = JSON.parse(ourDeck.responseText);
+	document.getElementById("deck_id").textContent = deckResponse.deck_id;
+});
+
+//once the code that we want to happen when the API responds is setup, we can send the request
+ourDeck.send(null);
+};
+
+//call our function (asyncronous request)
+createDeck();
+
+//this code will now execute before the API response is received, despite the above function code block not fully executing yet
+document.getElementById("deck_id").textContent = "Waiting for the API response, this is asyncronous!";
+						</pre>
+					</p>
+					<p>Between our <a href="http://jsfiddle.net/maxwell_ryan/cw9v9paz/7/?utm_source=website&utm_medium=embed&utm_campaign=cw9v9paz">original function</a> and the above. The main change is <code>false</code> has become <code>true</code>, but this one change has a big affect. Our function is now asyncronous and the code after our function will now no longer wait to run before the API response is received. Due to this, we must move the code depending on the API response information to be within the function that fires once the API has responsded ("load").
+						 This is why you may have noticed that we will update the <em>deck_id</em> span's text once the API has responded. If the code was not here, due to the request being asyncronous, it would attempt to update the span's text right after the request is sent, but before a response is received. At this point, we wouldn't have the <code>deck_id</code> to update the text with. Thus, we tell the request's annonymous callback function to handle this portion of the code for us once a response is received.</p>
+					<p>Test the above code in this <a href="http://jsfiddle.net/maxwell_ryan/3sfptd1y/14/">JSFiddle</a>. Notice that when you hit run, "Waiting for the API response, this is asyncronous!" displays in the results output, but quickly after, this text disappears and the <code>deck_id</code> replaces it. This is illustrating the flow of our asyncronous request. Before, when we sent the request using the <code>false</code> bool, the request was syncronous, so upon sending, the code freezes until a response is received, then the code continues. This can cause a slow experience for the user, or even make information render in an odd order.
+						 With our new asyncronous request, as soon as the request is sent the following code is executed. In this example that is the line <code>document.getElementById("deck_id").textContent = "Waiting for the API response, this is asyncronous!";</code>. This is why you are seeing this text in the results pane. However, once our API request is received, the callback function code is executed <em>immediately</em>. This function includes code to update our span with the <code>deck_id</code>, which we can now do as it was received in the request response.</p>
+					<p>All of this happens very quickly, but it is happening asyncronously. It is imporant to understand the path the code follows when sending requests asyncronously and it is important to use asyncronous request instead of syncronous requests, as this provides a better experience for the user. Perhaps more importantly, at least in our case, asyncronous requests also ensure that our program doesn't pause and wait at the mercy of how quickly the API responds.<strong> All of our requests going forward will be asyncronous.</strong>
+					<p>We are now ready to compile everything we have learned together to <a href="tieTogetherGame.html">create our video poker game.</a></p>
+
+				</div>
+			</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="copyright">
+				&copy; Site template source: <a href="https://templated.co">TEMPLATED</a>
+				<br><em>Site by: Maxwell Weinberger | CS290 | weinbema@oregonstate.edu</em>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
